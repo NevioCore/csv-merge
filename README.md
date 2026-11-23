@@ -1,0 +1,42 @@
+# csvmerge – merge many CSV/Excel files into one
+
+You get the same export every week from different tools, and the columns never quite match?
+`csvmerge` puts them together into one clean file.
+
+```sh
+python csvmerge.py exports/*.csv -o merged.csv --dedupe --source-column
+```
+
+```
+Merged files:
+  shop_export.csv: 1200 rows (encoding cp1252, delimiter ;)
+  crm_export.csv: 830 rows (encoding utf-8-sig, delimiter ,)
+Columns (6): Name, E-Mail, PLZ, Ort, Telefon, source_file
+Rows in: 2030, rows out: 1987, duplicates removed: 43
+Written: merged.csv
+```
+
+## What it does
+
+- **Finds the right columns by name**: `E-Mail`, `email` and `EMAIL` end up in the same column; order does not matter
+- **Handles German files**: Windows-1252, UTF-8 with BOM, `;` or `,` or tab
+- **Keeps leading zeros** (postal codes, customer numbers)
+- **Optional**: remove duplicate rows (`--dedupe`), add the source file name (`--source-column`)
+- **Excel files** (`.xlsx`) with `pip install openpyxl`
+- **Safe**: your input files are never changed; the output opens correctly in German Excel
+
+Only Python 3.10+ is needed (no install for CSV files).
+
+## Tests
+
+```sh
+python -m unittest discover -s tests -t .
+```
+
+## Need something custom?
+
+I write Python scripts that automate spreadsheet work. Contact: [Fiverr](https://www.fiverr.com/nevio_core) · [Malt](https://www.malt.de/profile/neviowaldemarniebel)
+
+## License
+
+MIT
