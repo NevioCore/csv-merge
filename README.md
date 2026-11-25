@@ -27,6 +27,25 @@ Written: merged.csv
 
 Only Python 3.10+ is needed (no install for CSV files).
 
+## Remove or flag duplicates in one file: `csvdedupe`
+
+```sh
+python csvdedupe.py products.csv -o products_clean.csv --ignore-case --removed removed.csv
+python csvdedupe.py products.csv -o clean.csv --key SKU,Title      # compare only some columns
+python csvdedupe.py contacts.xlsx -o flagged.csv --flag            # keep all rows, mark duplicates
+```
+
+```
+Rows in: 5120, rows out: 4987
+Duplicate groups: 121, rows removed: 133
+Examples: A-1001 (2x), A-1007 (3x), ...
+Written: products_clean.csv
+```
+
+- From each group of duplicates it keeps the row with the most filled-in cells
+- Keeps row order, column order, delimiter and encoding, so the file can be imported straight back
+- `--flag` adds a `duplicate_of_row` column (Excel row number) instead of deleting anything
+
 ## Tests
 
 ```sh
